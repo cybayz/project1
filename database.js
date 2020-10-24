@@ -7,7 +7,7 @@ const pool = createPool({
     user: "root",
     password: "",
     database: "cybayz",
-    connectionLimit:10
+    connectionLimit:15
 })
 
 module.exports = pool;

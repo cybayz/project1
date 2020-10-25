@@ -176,6 +176,8 @@ var ids=[];
         }
         function updateCartTotal(price, bool) {
             cartTotal.innerText = bool ? (Number(cartTotal.innerText) + Number(price)).toFixed(2) : (Number(cartTotal.innerText) - Number(price)).toFixed(2);
+            var tett=$('#home_delivery_price').html();
+            $("#takeaway_price").html(tett);
         }
         function quickUpdateCart() {
             var quantity = 0;
@@ -191,5 +193,7 @@ var ids=[];
             cartCountItems[0].innerText = quantity;
             cartCountItems[1].innerText = quantity + 1;
         }
+        var tett=$('#home_delivery_price').html();
+        $("#takeaway_price").html(tett);
     }
 })();

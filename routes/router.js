@@ -7,6 +7,13 @@ routes.get('/home', (req, res) => {
     res.render('index');
 })
 
+routes.get('/', (req, res) => {
+    res.render('index');
+})
+
+routes.get('/map', (req, res) => {
+    res.render('map');
+})
 
 routes.get('/productlist',prod_controller.list_all_tasks)
 

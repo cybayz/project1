@@ -74,10 +74,10 @@
     backface-visibility: hidden;
 }
 
-.cd-cart__trigger{
+/* .cd-cart__trigger{
     background-image: url("/img/cart.png");
     background-size: cover;
-}
+} */
 
 .cd-cart--empty .cd-cart__trigger, .cd-cart--empty .cd-cart__content {
     -webkit-transform: translateY(150px);
@@ -86,9 +86,11 @@
 }
 @media(min-width:80rem) {
     .cd-cart__trigger, .cd-cart__content {
-    bottom: 40px;
+    bottom: 65px;
 }
 }.cd-cart__trigger {
+    text-align: center;
+    background-color:#28a745;
     z-index: 3;
     height: 72px;
     width: 72px;

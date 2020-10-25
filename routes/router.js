@@ -3,18 +3,12 @@ const routes = require('express').Router();
 const prod_controller = require('../controllers/product_controller')
 
 
-routes.get('/home', (req, res) => {
-    res.render('index');
-})
+routes.get('/home',prod_controller.list_all_tasks)
 
-routes.get('/', (req, res) => {
-    res.render('index');
-})
+routes.get('/',prod_controller.list_all_tasks)
 
 routes.get('/map', (req, res) => {
     res.render('map');
 })
-
-routes.get('/productlist',prod_controller.list_all_tasks)
 
 module.exports = routes;

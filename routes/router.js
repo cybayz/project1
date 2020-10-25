@@ -9,4 +9,8 @@ routes.get('/home', (req, res) => {
     res.render('index');
 })
 
+routes.get('/map', (req, res) => {
+    res.render('map');
+})
+
 module.exports = routes;

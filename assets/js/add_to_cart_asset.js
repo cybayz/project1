@@ -32,8 +32,13 @@ var ids=[];
                     removeProduct(event.target.closest(".cd-cart__product"));
                 }
             });
-            cart[0].addEventListener("change", function (event) {
-                if (event.target.tagName.toLowerCase() == "select") quickUpdateCart();
+            cart[0].addEventListener("focusout", function (event) {
+                if (event.target.tagName.toLowerCase() == "input") {
+                    console.log(event)
+                    var qty=event.target.value
+                    quickUpdateCart();
+
+                }
             });
             cartUndo.addEventListener("click", function (event) {
                 if (event.target.tagName.toLowerCase() == "a") {
@@ -93,8 +98,13 @@ var ids=[];
             
             
             var  productId = target.getAttribute('data-pid');
+            
+            $('#cart_id_'+productId).html($('<i/>',{class:'fa fa-check'}));
+            $('#cart_id_'+productId).addClass('disabled');
+            $("#changeme").attr('data-progress','100');
             var pname=target.getAttribute('data_pname');
             var price=parseInt(target.getAttribute('data-price'));
+            var Qty=1;
             ids.push(productId);console.log(ids);
             var onlypricechange=0;
             var updprice=0;
@@ -104,34 +114,44 @@ var ids=[];
                     if (ids[i] === productId) counter++;
                 }
                 if(counter>=2){
-                   
                     var updprice=price*counter
+                    Qty=Qty*counter
                     onlypricechange=1;
                 }
 
             }
-            if(onlypricechange == '1'){
-                 $('#id_'+productId).text(updprice)
-                 $("#cd-product-"+productId+" option[value="+counter+"]").prop("selected",true); 
+            if(onlypricechange == '0'){
+                var productAdded =
+                '<li class="cd-cart__product"><input class="prod_id" type="hidden" id="prod_id" value="'+productId+'" /><div class="cd-cart__image"><a href="#0"><img src="assets/img/product-preview.png" alt="placeholder"></a></div><div class="cd-cart__details"><h3 class="truncate"><a href="#0">'+pname+'</a></h3><span style="display:none;" id="cart_tot" class="cd-cart_price">'+price+'</span><span id="id_'+productId+'" class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-' +
+                productId +
+                '">Qty</label><span class="cd-cart__select"><input type="text" de_id="id'+productId+'" class=" qty_box" id="qty_box_'+productId+'"  min="0" max="100" step="10"></input> X <span id="single_price"><strong>'+price+'</strong></span> </span></div></div></div></li>';
+                cartList.insertAdjacentHTML("beforeend", productAdded);
+                document.getElementById('qty_box_'+productId).value = Qty;
+                
                  
             }else{
-            
-            var productAdded =
-                '<li class="cd-cart__product"><div class="cd-cart__image"><a href="#0"><img src="assets/img/product-preview.png" alt="placeholder"></a></div><div class="cd-cart__details"><h3 class="truncate"><a href="#0">'+pname+'</a></h3><span id="id_'+productId+'" class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-' +
-                productId +
-                '">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-' +
-                productId +
-                '" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 18 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
-                cartList.insertAdjacentHTML("beforeend", productAdded);
+                 $('#id_'+productId).text(updprice)
+                 $('#qty_box_'+productId).val(Qty)
             }
         }
         function removeProduct(product) {
+            console.log(product);
             if (cartTimeoutId) clearInterval(cartTimeoutId);
             removePreviousProduct();
+            var pr_id= product.getElementsByClassName("prod_id")[0].value;
+            $('#cart_id_'+pr_id).html($('<span/>',{class:'lnr lnr-cart'}));
+            $('#cart_id_'+pr_id).removeClass('disabled');
+            $('input#qty_box_'+pr_id).removeAttr('id');
+            $('span#id_'+pr_id).removeAttr('id');
             var topPosition = product.offsetTop,
-                productQuantity = Number(product.getElementsByTagName("select")[0].value),
-                productTotPrice = Number(product.getElementsByClassName("cd-cart__price")[0].innerText.replace("$", "")) * productQuantity;
+                productQuantity = Number(product.getElementsByClassName("qty_box")[0].value),
+                productTotPrice = Number(product.getElementsByClassName("cd-cart_price")[0].innerText.replace("$", "")) * productQuantity;
             product.style.top = topPosition + "px";
+            let index = ids.indexOf(pr_id);
+            if (index > -1) {
+                ids.splice(index, pr_id);
+            }
+            
             Util.addClass(product, "cd-cart__product--deleted");
             updateCartTotal(productTotPrice, false);
             updateCartCount(true, -productQuantity);
@@ -182,13 +202,16 @@ var ids=[];
         function quickUpdateCart() {
             var quantity = 0;
             var price = 0;
+            
             for (var i = 0; i < cartListItems.length; i++) {
                 if (!Util.hasClass(cartListItems[i], "cd-cart__product--deleted")) {
-                    var singleQuantity = Number(cartListItems[i].getElementsByTagName("select")[0].value);
+                    var singleQuantity = Number(cartListItems[i].getElementsByClassName("qty_box")[0].value);
                     quantity = quantity + singleQuantity;
-                    price = price + singleQuantity * Number(cartListItems[i].getElementsByClassName("cd-cart__price")[0].innerText.replace("$", ""));
+                    price = price + singleQuantity * Number(cartListItems[i].getElementsByClassName("cd-cart_price")[0].innerText.replace("$", ""));
+                    
                 }
             }
+            
             cartTotal.innerText = price.toFixed(2);
             cartCountItems[0].innerText = quantity;
             cartCountItems[1].innerText = quantity + 1;

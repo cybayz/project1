@@ -3,9 +3,9 @@ var exphbs  = require('express-handlebars');
 const hbs = require('hbs');
 const routes = require('./routes/router');
 
-const app = express()
+const app = express();
 const path = require('path');
-const port = 3000
+const port = 3000;
 
 //setting view engine
 hbs.registerPartials(__dirname + '/views/partials');

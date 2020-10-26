@@ -11123,7 +11123,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     left: 50%;
     transform: translatex(-50%);
     bottom: 0;
-    z-index: 9;
+    /* z-index: 9; */
     background: #ffffff;
     padding: 4px 7px;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.1);
@@ -11144,7 +11144,39 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   text-align: center;
   border-radius: 50%;
 }
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:100px;
+	left:40px;
+	background-color:#28a745;
+	color:rgb(14, 12, 12);
+	border-radius:50px;
+	text-align:center;
+    box-shadow: 2px 2px 3px #999;
 
+}
+/*quantity box*/
+.qty_box{
+  width:40px; 
+  margin-left: 5px;
+}
+
+.disabled {
+    /* if you also want it to fade a bit:  
+       opacity: 0.5
+    */
+    pointer-events: none;
+    cursor: default;
+}
+.my-float{
+  margin-top:17px;
+  font-size: 34px;
+}
+.hide{
+display: none;
+}
 
 /*privacy policy css end*/
 

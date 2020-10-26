@@ -1,4 +1,9 @@
 <link rel="stylesheet" href=" /css/add_to_cart.css">
+<style>
+    .tabcontent {
+        display: none;
+    }
+</style>
 <div class="cd-cart cd-cart--empty js-cd-cart">
     <a class="cd-cart__trigger text-replace">
         <i class="fa fa-shopping-cart my-float"></i>
@@ -9,26 +14,54 @@
     </a>
     <div class="cd-cart__content">
         <div class="cd-cart__layout">
+            <div class="tabcontent" id="cart_hm">
+                <div class="cd-cart__body">
+                    <ul>
 
-            <div class="cd-cart__body">
-                <ul>
-
-                </ul>
+                    </ul>
+                </div>
             </div>
+            <div class="tabcontent" id="cart_delivery">
+                <div class="cd-cart__body">
+                    <a onclick="cart_step(event, 'cart_hm')"><i class="fa fa-arrow-circle-left red"></i> Back</a>
+                    <br>
+                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter name">
+                    <br>
+                    <input type="number" class="form-control" id="exampleInputphone" placeholder="Enter Mobile No">
+                    <label for="exampleFormControlTextarea1">Address</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
+                </div>
+            </div>
+            <div class="tabcontent" id="cart_takeaway">
+                <div class="cd-cart__body">
+                    <a onclick="cart_step(event, 'cart_hm')"><i class="fa fa-arrow-circle-left red"></i> Back</a>
+                    <br>
+                    <input placeholder="Name" type="text"><br>
+                    <input placeholder="Mobile Number" type="text"><br>
+                </div>
+            </div>
+            
             <footer class="cd-cart__footer">
                 <div class="cd-cart__checkout">
-                    <div class="row">
-                        <div class="col">
-                            <a href="" class="cart_homedelivery">
+                    <div class="row" id="cart_btn_div">
+                        <div class="col cart_homedelivery">
+                            <a class="cart_homedelivery" onclick="cart_step(event, 'cart_delivery')">
                                 <em>Delivery - Rs<span id="home_delivery_price">0</span>
                                 </em>
                             </a></div>
                         <div class="col cart_takeaway">
-                            <a href="" class="cart_takeaway">
+                            <a class="cart_takeaway" onclick="cart_step(event, 'cart_takeaway')">
                                 <em>TakeAway - Rs<span id="takeaway_price">0</span>
                                 </em>
                             </a></div>
-                    </div>                    
+                    </div> 
+                    <div class="hide" id="cart_btn_div_ordr">
+                        <a class="cart_homedelivery" >
+                            <em>Place Order
+                            </em>
+                        </a>
+                    </div>                   
                 </div>
             </footer>
         </div>
@@ -37,3 +70,20 @@
 
 <script src=" /js/add_to_cart_asset.js"></script>
 <script src=" /js/add_to_cart_util.js"></script>
+<script>
+    document.getElementById("cart_hm").style.display = "block";
+    function cart_step(evt, odr_type) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        document.getElementById(odr_type).style.display = "block";
+        $("#cart_btn_div").removeClass("hide");
+        $("#cart_btn_div_ordr").removeClass("hide").addClass("hide");
+        if(odr_type=='cart_delivery'||odr_type=='cart_takeaway'){
+            $("#cart_btn_div").removeClass("hide").addClass("hide");
+            $("#cart_btn_div_ordr").removeClass("hide");
+        }
+    }
+</script>

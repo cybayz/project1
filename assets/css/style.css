@@ -11162,6 +11162,9 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     margin-top:17px;
     font-size: 34px;
 }
+.hide{
+  display: none;
+}
 
 /*privacy policy css end*/
 
